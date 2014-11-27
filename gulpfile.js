@@ -33,7 +33,8 @@ gulp.task('browser-sync', function () {
   ], {
     server: {
       baseDir: '.'
-    }
+    },
+    startPath: '/demo/index.html'
   });
 });
 
