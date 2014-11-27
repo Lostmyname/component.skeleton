@@ -1,0 +1,26 @@
+{
+  "name": "lmn.skeleton",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "main": "js/skeleton.js",
+  "dependencies": {
+    "browserify": "^6.2.0",
+    "jquery": "^2.1.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^1.5.1",
+    "gulp": "^3.8.8",
+    "gulp-autoprefixer": "^1.0.1",
+    "gulp-load-plugins": "^0.7.1",
+    "gulp-minify-css": "^0.3.10",
+    "gulp-plumber": "^0.6.5",
+    "gulp-ruby-sass": "^0.7.1",
+    "mocha": "^2.0.1",
+    "should": "^4.2.0",
+    "vinyl-source-stream": "^1.0.0"
+  },
+  "scripts": {
+    "test": "open 'http://localhost:3001/demo/tests.html'"
+  }
+}
