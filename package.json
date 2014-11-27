@@ -22,5 +22,6 @@
   },
   "scripts": {
     "test": "open 'http://localhost:3001/demo/tests.html'"
-  }
+  },
+  "license": "MIT"
 }
