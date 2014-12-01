@@ -7,4 +7,8 @@ probably also need to update the cloudfront css.
 
 ## Installation
 
+Use through npm.
+
+### Development
+
 Run `npm install` and then `gulp` to generate the CSS and start browser-sync.
