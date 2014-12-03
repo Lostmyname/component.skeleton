@@ -7,11 +7,24 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var stylish = require('jshint-stylish');
 
+var dieOnError = true;
+
 gulp.task('js-quality', function () {
-  return gulp.src('js/**/*.js')
-    .pipe(plugins.jscs())
-    .pipe(plugins.jshint.reporter(stylish))
-    .pipe(plugins.jshint.reporter('fail'));
+  var stream = gulp.src('js/**/*.js');
+
+  if (!dieOnError) {
+    stream = stream.pipe(plugins.plumber());
+  }
+
+  stream = stream.pipe(plugins.jscs())
+    .pipe(plugins.jshint())
+    .pipe(plugins.jshint.reporter(stylish));
+
+  if (dieOnError) {
+    stream = stream.pipe(plugins.jshint.reporter('fail'));
+  }
+
+  return stream;
 });
 
 gulp.task('js', ['js-quality'], function () {
@@ -32,21 +45,26 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./demo/build'));
 });
 
-gulp.task('browser-sync', function () {
+gulp.task('default', ['js', 'sass'], function () {
+  dieOnError = false;
+
   browserSync.init([
     'demo/**/*.css',
-    'demo/**/*.js',
-    'demo/**/*.html',
+    'demo/build/**/*.js',
+    'demo/*.html',
     'test/**/*.js'
   ], {
     server: {
       baseDir: '.'
     },
-    startPath: '/demo/index.html'
+    startPath: '/demo/context.html',
+    ghostMode: {
+      scroll: false,
+      links: false,
+      forms: false
+    }
   });
-});
 
-gulp.task('default', ['js', 'sass', 'browser-sync'], function () {
   gulp.watch('sass/**/*.{sass,scss}', ['sass']);
   gulp.watch(['js/**/*.js'], ['js']);
 });
