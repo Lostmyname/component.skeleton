@@ -57,7 +57,7 @@ gulp.task('default', ['js', 'sass'], function () {
     server: {
       baseDir: '.'
     },
-    startPath: '/demo/context.html',
+    startPath: '/demo/index.html',
     ghostMode: {
       scroll: false,
       links: false,
