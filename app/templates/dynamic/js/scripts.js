@@ -8,7 +8,7 @@ window.Component = module.exports = (function () {
   }
 
   Component.CONSTANT = 7;
-  Component._dependency = require('./blablabla');
+//  Component._dependency = require('./blablabla');
 
   return Component;
 })();

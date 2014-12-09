@@ -28,7 +28,7 @@ gulp.task('js-quality', function () {
 });
 
 gulp.task('js', ['js-quality'], function () {
-  var bundler = browserify('./js/scripts.js');
+  var bundler = browserify('./js/<%= name %>.js');
 
   return bundler.bundle()
     .on('error', console.log.bind(console, 'Browserify Error'))

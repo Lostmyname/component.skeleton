@@ -1,0 +1,32 @@
+{
+  "name": "lmn.<%= name %>",
+  "version": "0.0.0",
+  "description": "<%= description %>",
+  "author": "<%= author %>",
+  "main": "js/<%= name %>.js",
+  "dependencies": {
+    "browserify": "^6.2.0",
+    "jquery": "^2.1.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^1.5.1",
+    "gulp": "^3.8.8",
+    "gulp-autoprefixer": "^1.0.1",
+    "gulp-jscs": "^1.3.1",
+    "gulp-jshint": "^1.9.0",
+    "gulp-load-plugins": "^0.7.1",
+    "gulp-minify-css": "^0.3.10",
+    "gulp-plumber": "^0.6.6",
+    "gulp-ruby-sass": "^0.7.1",
+    "jscs": "^1.8.1",
+    "jshint-stylish": "^1.0.0",<% if (tests) { %>
+    "mocha": "^2.0.1",
+    "should": "^4.2.0",<% } %>
+    "vinyl-source-stream": "^1.0.0"
+  },
+  "scripts": {<% if (tests) { %>
+    "test": "open 'http://localhost:3001/demo/tests.html'",<% } %>
+    "jscs": "jscs ."
+  },
+  "license": "MIT"
+}

@@ -1,32 +1,36 @@
 {
-  "name": "lmn.skeleton",
+  "name": "generator-lmn-component",
   "version": "0.0.0",
-  "description": "",
-  "author": "",
-  "main": "js/skeleton.js",
-  "dependencies": {
-    "browserify": "^6.2.0",
-    "jquery": "^2.1.1"
+  "description": "Yeoman generator for Lost My Name components",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "Lostmyname/generator-lmn-component",
+  "author": {
+    "name": "Callum Macrae",
+    "email": "callum@lostmy.name",
+    "url": "https://github.com/callumacrae"
   },
-  "devDependencies": {
-    "browser-sync": "^1.5.1",
-    "gulp": "^3.8.8",
-    "gulp-autoprefixer": "^1.0.1",
-    "gulp-jscs": "^1.3.1",
-    "gulp-jshint": "^1.9.0",
-    "gulp-load-plugins": "^0.7.1",
-    "gulp-minify-css": "^0.3.10",
-    "gulp-plumber": "^0.6.6",
-    "gulp-ruby-sass": "^0.7.1",
-    "jscs": "^1.8.1",
-    "jshint-stylish": "^1.0.0",
-    "mocha": "^2.0.1",
-    "should": "^4.2.0",
-    "vinyl-source-stream": "^1.0.0"
+  "engines": {
+    "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "open 'http://localhost:3001/demo/tests.html'",
-    "jscs": "jscs ."
+    "test": "mocha"
   },
-  "license": "MIT"
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^0.18.0",
+    "chalk": "^0.5.0",
+    "yosay": "^0.3.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
+  }
 }
