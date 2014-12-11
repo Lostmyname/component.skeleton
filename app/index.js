@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var exec = require('child-process-promise').exec;
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
@@ -103,15 +104,33 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
-  install: function () {
-    //this.npmInstall();
+  install: {
+    git: function () {
+      var done = this.async();
+      var options = { cwd: this.destinationRoot() };
 
-    // @todo: Init git
+      this.log('\nInitialising git');
+
+      return exec('git init', options)
+        .then(function () {
+          return exec('git add -A', options);
+        })
+        .then(function () {
+          return exec('git commit -am "Added skeleton files"', options);
+        })
+        .then(function () {
+          this.log(chalk.green('Initialised git'));
+          done();
+        }.bind(this));
+    },
+    npm: function () {
+      this.log('\nRunning npm install');
+      this.npmInstall();
+    }
   },
 
   end: function () {
-    this.log('\n');
-    this.log(chalk.green.bold('Generated your component!'));
+    this.log(chalk.green.bold('\nGenerated your component!'));
     this.log('Now edit the README, run `gulp`, and start developing.');
   }
 });
