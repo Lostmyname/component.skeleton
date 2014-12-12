@@ -8,3 +8,10 @@ To use:
 npm install -g yo generator-lmn-component
 yo lmn-component
 ```
+
+## GitHub support
+
+The generator will always create a git repository for you. You can also get it
+to create a GitHub repository for you, and at this point you will be prompted
+for a "Personal access token", which you can create in [Settings ->
+Applications](https://github.com/settings/applications).

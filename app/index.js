@@ -3,6 +3,8 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var exec = require('child-process-promise').exec;
+var GitHubApi = require('github');
+var bluebird = require('bluebird');
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
@@ -43,6 +45,21 @@ module.exports = yeoman.generators.Base.extend({
         name: 'author',
         message: 'What\'s your GitHub username?',
         store: true
+      },
+      {
+        type: 'confirm',
+        name: 'github',
+        message: 'Would you like a GitHub repo to be created automatically?',
+        default: true
+      },
+      {
+        type: 'input',
+        name: 'ghToken',
+        message: 'Can I have a personal access token? (Settings -> Applications)',
+        store: true,
+        when: function (answers) {
+          return answers.github;
+        }
       }
     ];
 
@@ -119,8 +136,49 @@ module.exports = yeoman.generators.Base.extend({
           return exec('git commit -am "Added skeleton files"', options);
         })
         .then(function () {
+          var that = this;
+
           this.log(chalk.green('Initialised git'));
-          done();
+
+          if (!this.promptProps.github) {
+            done();
+          } else {
+            var github = new GitHubApi({ version: '3.0.0' });
+            var org = 'Lostmyname';
+            var repo = 'component.' + this.promptProps.name;
+
+            github.authenticate({
+              type: 'oauth',
+              token: this.promptProps.ghToken
+            });
+
+            var createFromOrg = bluebird.promisify(github.repos.createFromOrg);
+
+            createFromOrg({
+              org: org,
+              // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+              team_id: 316933,
+              // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+              name: repo,
+              description: this.promptProps.description
+            })
+              .catch(function (err) {
+                that.log(chalk.red.bold('Failed to create GitHub repo:'), err);
+              })
+              .then(function () {
+                var remote = 'git@github.com:' + org + '/' + repo + '.git';
+                return exec('git remote add origin ' + remote);
+              })
+              .then(function () {
+                return exec('git push -u origin master');
+              })
+              .then(function () {
+                that.log(chalk.green('Successfully set up GitHub repo'));
+              })
+              .finally(function () {
+                done();
+              });
+          }
         }.bind(this));
     },
     npm: function () {
