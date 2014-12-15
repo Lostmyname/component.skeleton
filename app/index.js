@@ -84,6 +84,11 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationRoot()
       );
 
+      this.fs.copy(
+        this.templatePath('dynamic/_gitignore'),
+        this.destinationPath('.gitignore')
+      );
+
       // Delete test files if not needed
       if (!this.promptProps.tests) {
         this.fs.delete(this.destinationPath('demo/tests.html'));
