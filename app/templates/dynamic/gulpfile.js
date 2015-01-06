@@ -10,7 +10,7 @@ var stylish = require('jshint-stylish');
 var dieOnError = true;
 
 gulp.task('js-quality', function () {
-  var stream = gulp.src('js/**/*.js');
+  var stream = gulp.src('./src/js/**/*.js');
 
   if (!dieOnError) {
     stream = stream.pipe(plugins.plumber());
@@ -28,7 +28,7 @@ gulp.task('js-quality', function () {
 });
 
 gulp.task('js', ['js-quality'], function () {
-  var bundler = browserify('./js/<%= name %>.js');
+  var bundler = browserify('./src/js/<%= name %>.js');
 
   return bundler.bundle()
     .on('error', console.log.bind(console, 'Browserify Error'))
@@ -36,16 +36,20 @@ gulp.task('js', ['js-quality'], function () {
     .pipe(gulp.dest('./demo/build'));
 });
 
-gulp.task('sass', function () {
-  return gulp.src(['sass/*.{sass,scss}', '!sass/_*.{sass,scss}'])
-    .pipe(plugins.rubySass())
+
+gulp.task('scss', function () {
+  return gulp.src(['./src/scss/*.{sass,scss}', '!./src/scss/_*.{sass,scss}'])
+    .pipe(plugins.compass({
+      css: './demo/build',
+      sass: './sass'
+    }))
     .pipe(plugins.plumber())
     .pipe(plugins.autoprefixer())
 //    .pipe(plugins.minifyCss())
     .pipe(gulp.dest('./demo/build'));
 });
 
-gulp.task('default', ['js', 'sass'], function () {
+gulp.task('default', ['js', 'scss'], function () {
   dieOnError = false;
 
   browserSync.init([
@@ -65,6 +69,6 @@ gulp.task('default', ['js', 'sass'], function () {
     }
   });
 
-  gulp.watch('sass/**/*.{sass,scss}', ['sass']);
-  gulp.watch(['js/**/*.js'], ['js']);
+  gulp.watch('./src/scss/**/*.{sass,scss}', ['scss']);
+  gulp.watch(['./src/js/**/*.js'], ['js']);
 });

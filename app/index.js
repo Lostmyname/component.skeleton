@@ -103,20 +103,22 @@ module.exports = yeoman.generators.Base.extend({
       );
 
       this.fs.copy(
-        this.templatePath('dynamic/js/scripts.js'),
-        this.destinationPath('js/' + this.promptProps.name + '.js')
+        this.templatePath('dynamic/src/js/scripts.js'),
+        this.destinationPath('src/js/' + this.promptProps.name + '.js')
       );
 
       this.fs.copyTpl(
-        this.templatePath('dynamic/sass/styles.scss'),
-        this.destinationPath('sass/styles.scss'),
+        this.templatePath('dynamic/src/scss/styles.scss'),
+        this.destinationPath('src/scss/styles.scss'),
         this.promptProps
       );
 
       this.fs.copy(
-        this.templatePath('dynamic/sass/_skeleton.scss'),
-        this.destinationPath('sass/_' + this.promptProps.name + '.scss')
+        this.templatePath('dynamic/src/scss/_skeleton.scss'),
+        this.destinationPath('src/scss/_' + this.promptProps.name + '.scss')
       );
+
+
 
       this.fs.copyTpl(
         this.templatePath('dynamic/gulpfile.js'),
