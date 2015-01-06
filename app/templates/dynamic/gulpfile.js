@@ -41,7 +41,7 @@ gulp.task('scss', function () {
   return gulp.src(['./src/scss/*.{sass,scss}', '!./src/scss/_*.{sass,scss}'])
     .pipe(plugins.compass({
       css: './demo/build',
-      sass: './sass'
+      sass: './src/scss'
     }))
     .pipe(plugins.plumber())
     .pipe(plugins.autoprefixer())
