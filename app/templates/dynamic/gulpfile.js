@@ -36,14 +36,13 @@ gulp.task('js', ['js-quality'], function () {
     .pipe(gulp.dest('./demo/build'));
 });
 
-
 gulp.task('scss', function () {
   return gulp.src(['./src/scss/*.{sass,scss}', '!./src/scss/_*.{sass,scss}'])
+    .pipe(plugins.plumber())
     .pipe(plugins.compass({
       css: './demo/build',
       sass: './src/scss'
     }))
-    .pipe(plugins.plumber())
     .pipe(plugins.autoprefixer())
 //    .pipe(plugins.minifyCss())
     .pipe(gulp.dest('./demo/build'));
