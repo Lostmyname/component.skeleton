@@ -1,15 +1,17 @@
 'use strict';
 
 var fs = require('fs');
+var spawn = require('child_process').spawn;
+
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
-var browserSync = require('browser-sync');
-var source = require('vinyl-source-stream');
+
 var browserify = require('browserify');
-var stylish = require('jshint-stylish');
-var spawn = require('child_process').spawn;
-var yaml = require('js-yaml');
+var browserSync = require('browser-sync');
 var delve = require('delve');
+var source = require('vinyl-source-stream');
+var stylish = require('jshint-stylish');
+var yaml = require('js-yaml');
 
 var dieOnError = true;
 
