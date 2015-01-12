@@ -6,14 +6,39 @@ var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var stylish = require('jshint-stylish');
+var spawn = require('child_process').spawn;
 
 var dieOnError = true;
+
+function onError(err) {
+  browserSync.notify(err.message, 3000);
+  this.emit('end'); // jshint ignore: line
+}
+
+// Run this when you're working on the Gulpfile. Otherwise, do not use.
+gulp.task('auto-reload', function () {
+  var process;
+  var args = ['default'];
+
+  function restart() {
+    if (process) {
+      process.kill();
+    }
+
+    process = spawn('gulp', args, { stdio: 'inherit' });
+  }
+
+  gulp.watch('gulpfile.js', restart);
+  restart();
+
+  args.push('--no-open');
+});
 
 gulp.task('js-quality', function () {
   var stream = gulp.src('./src/js/**/*.js');
 
   if (!dieOnError) {
-    stream = stream.pipe(plugins.plumber());
+    stream = stream.pipe(plugins.plumber({ errorHandler: onError }));
   }
 
   stream = stream.pipe(plugins.jscs())
@@ -38,11 +63,12 @@ gulp.task('js', ['js-quality'], function () {
 
 gulp.task('scss', function () {
   return gulp.src(['./src/scss/*.{sass,scss}', '!./src/scss/_*.{sass,scss}'])
-    .pipe(plugins.plumber())
     .pipe(plugins.compass({
       css: './demo/build',
       sass: './src/scss'
     }))
+    .on('error', onError) // For some reason gulp-plumber doesn't like -compass
+    .pipe(plugins.plumber())
     .pipe(plugins.autoprefixer())
 //    .pipe(plugins.minifyCss())
     .pipe(gulp.dest('./demo/build'));
@@ -51,12 +77,7 @@ gulp.task('scss', function () {
 gulp.task('default', ['js', 'scss'], function () {
   dieOnError = false;
 
-  browserSync.init([
-    'demo/**/*.css',
-    'demo/build/**/*.js',
-    'demo/*.html',
-    'test/**/*.js'
-  ], {
+  var config = {
     server: {
       baseDir: '.'
     },
@@ -66,7 +87,18 @@ gulp.task('default', ['js', 'scss'], function () {
       links: false,
       forms: false
     }
-  });
+  };
+
+  if (process.argv.indexOf('--no-open') !== -1) {
+    config.open = false;
+  }
+
+  browserSync.init([
+    'demo/**/*.css',
+    'demo/build/**/*.js',
+    'demo/*.html',
+    'test/**/*.js'
+  ], config);
 
   gulp.watch('./src/scss/**/*.{sass,scss}', ['scss']);
   gulp.watch(['./src/js/**/*.js'], ['js']);
