@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "browser-sync": "^1.5.1",
+    "delve": "^0.3.2",
     "gulp": "^3.8.8",
     "gulp-compass": "^2.0.3",
     "gulp-autoprefixer": "^1.0.1",
@@ -17,8 +18,11 @@
     "gulp-jshint": "^1.9.0",
     "gulp-load-plugins": "^0.7.1",
     "gulp-minify-css": "^0.3.10",
+    "gulp-mustache": "^1.0.1",
     "gulp-plumber": "^0.6.6",
+    "gulp-rename": "^1.2.0",
     "gulp-ruby-sass": "^0.7.1",
+    "js-yaml": "^3.2.5",
     "jscs": "^1.8.1",
     "jshint-stylish": "^1.0.0",<% if (tests) { %>
     "mocha": "^2.0.1",

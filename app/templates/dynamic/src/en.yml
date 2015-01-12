@@ -1,0 +1,3 @@
+en:
+  component.<%= name %>:
+    hello: Bonjour!

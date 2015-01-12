@@ -1,5 +1,6 @@
 'use strict';
 
+var fs = require('fs');
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
@@ -7,6 +8,8 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var stylish = require('jshint-stylish');
 var spawn = require('child_process').spawn;
+var yaml = require('js-yaml');
+var delve = require('delve');
 
 var dieOnError = true;
 
@@ -74,7 +77,26 @@ gulp.task('scss', function () {
     .pipe(gulp.dest('./demo/build'));
 });
 
-gulp.task('default', ['js', 'scss'], function () {
+gulp.task('html', function () {
+  var partial = fs.readFileSync('src/partials/partial.mustache.html', 'utf8');
+  var lang = yaml.safeLoad(fs.readFileSync('src/en.yml', 'utf8'));
+
+  var view = {
+    name: '<%= name %>',
+    t: function translate() {
+      return function (text, render) {
+        return render(delve(lang.en['component.<%= name %>'], text));
+      };
+    }
+  };
+
+  gulp.src('demo/base.mustache.html')
+    .pipe(plugins.mustache(view, {}, { partial: partial }))
+    .pipe(plugins.rename('partial.html'))
+    .pipe(gulp.dest('demo/partials'));
+});
+
+gulp.task('default', ['html', 'js', 'scss'], function () {
   dieOnError = false;
 
   var config = {
@@ -96,10 +118,11 @@ gulp.task('default', ['js', 'scss'], function () {
   browserSync.init([
     'demo/**/*.css',
     'demo/build/**/*.js',
-    'demo/*.html',
+    'demo/**/*.html',
     'test/**/*.js'
   ], config);
 
   gulp.watch('./src/scss/**/*.{sass,scss}', ['scss']);
-  gulp.watch(['./src/js/**/*.js'], ['js']);
+  gulp.watch('./src/js/**/*.js', ['js']);
+  gulp.watch('./src/partials/partial.mustache.html', ['html']);
 });

@@ -84,11 +84,6 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationRoot()
       );
 
-      this.fs.copy(
-        this.templatePath('dynamic/_gitignore'),
-        this.destinationPath('.gitignore')
-      );
-
       // Delete test files if not needed
       if (!this.promptProps.tests) {
         this.fs.delete(this.destinationPath('demo/tests.html'));
@@ -96,15 +91,14 @@ module.exports = yeoman.generators.Base.extend({
       }
 
       // All the other files!
-      this.fs.copyTpl(
-        this.templatePath('dynamic/_package.json'),
-        this.destinationPath('package.json'),
-        this.promptProps
-      );
-
       this.fs.copy(
         this.templatePath('dynamic/src/js/scripts.js'),
         this.destinationPath('src/js/' + this.promptProps.name + '.js')
+      );
+
+      this.fs.copy(
+        this.templatePath('dynamic/src/scss/_skeleton.scss'),
+        this.destinationPath('src/scss/_' + this.promptProps.name + '.scss')
       );
 
       this.fs.copyTpl(
@@ -113,9 +107,21 @@ module.exports = yeoman.generators.Base.extend({
         this.promptProps
       );
 
+      this.fs.copyTpl(
+        this.templatePath('dynamic/src/en.yml'),
+        this.destinationPath('src/en.yml'),
+        this.promptProps
+      );
+
       this.fs.copy(
-        this.templatePath('dynamic/src/scss/_skeleton.scss'),
-        this.destinationPath('src/scss/_' + this.promptProps.name + '.scss')
+        this.templatePath('dynamic/_gitignore'),
+        this.destinationPath('.gitignore')
+      );
+
+      this.fs.copyTpl(
+        this.templatePath('dynamic/_package.json'),
+        this.destinationPath('package.json'),
+        this.promptProps
       );
 
       this.fs.copyTpl(
