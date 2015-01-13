@@ -9,6 +9,8 @@ var plugins = require('gulp-load-plugins')();
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var delve = require('delve');
+var nunjucks = require('nunjucks');
+var objToAttrs = require('obj-to-attrs');
 var source = require('vinyl-source-stream');
 var stylish = require('jshint-stylish');
 var yaml = require('js-yaml');
@@ -79,23 +81,62 @@ gulp.task('scss', function () {
     .pipe(gulp.dest('./demo/build'));
 });
 
-gulp.task('html', function () {
-  var partial = fs.readFileSync('src/partials/partial.mustache.html', 'utf8');
+gulp.task('html', function (done) {
+  var base = fs.readFileSync('demo/base.erb.html', 'utf8');
+  var partial = fs.readFileSync('src/partials/partial.erb.html', 'utf8');
+
+  base = base.replace('<%= "<%=" %> partial %>', partial);
+
+  var env = nunjucks.configure({
+    tags: {
+      variableStart: '<%= "<%=" %>',
+      variableEnd: '%>'
+    }
+  });
+
   var lang = yaml.safeLoad(fs.readFileSync('src/en.yml', 'utf8'));
 
-  var view = {
-    name: '<%= name %>',
-    t: function translate() {
-      return function (text, render) {
-        return render(delve(lang.en['component.<%= name %>'], text));
-      };
+  // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+  var context = {
+    name: 'sarah',
+    t: function translate(text) {
+      return delve(lang.en['component.<%= name %>'], text);
+
+    },
+    image_path: function (path) {
+      return getImagePath(path);
+    },
+    image_tag: function (path, options) {
+      path = getImagePath(path);
+      return '<img src="' + path + '" ' + objToAttrs(options) + '>';
     }
   };
+  // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 
-  gulp.src('demo/base.mustache.html')
-    .pipe(plugins.mustache(view, {}, { partial: partial }))
-    .pipe(plugins.rename('partial.html'))
-    .pipe(gulp.dest('demo/partials'));
+  function getImagePath(path) {
+    return '../../src/imgs/' + path;
+  }
+
+  // HELL
+  env.renderString(base, context, function (err, res) {
+    if (err) {
+      return done(err);
+    }
+
+    fs.mkdir('demo/partials', function (err) {
+      if (err && err.code !== 'EEXIST') {
+        return done(err);
+      }
+
+      fs.writeFile('demo/partials/partial.html', res, function (err) {
+        if (err) {
+          return done(err);
+        }
+
+        done();
+      });
+    });
+  });
 });
 
 gulp.task('default', ['html', 'js', 'scss'], function () {
