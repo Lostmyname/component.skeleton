@@ -1,9 +1,9 @@
 {
-  "name": "lmn.<%= name %>",
+  "name": "lmn.{{ name }}",
   "version": "0.0.0",
-  "description": "<%= description %>",
-  "author": "<%= author %>",
-  "main": "js/<%= name %>.js",
+  "description": "{{ description }}",
+  "author": "{{ author }}",
+  "main": "js/{{ name }}.js",
   "dependencies": {
     "browserify": "^6.2.0",
     "jquery": "^2.1.1"
@@ -23,15 +23,15 @@
     "gulp-ruby-sass": "^0.7.1",
     "js-yaml": "^3.2.5",
     "jscs": "^1.8.1",
-    "jshint-stylish": "^1.0.0",<% if (tests) { %>
-    "mocha": "^2.0.1",<% } %>
+    "jshint-stylish": "^1.0.0",{% if (tests) { %}
+    "mocha": "^2.0.1",{% } %}
     "nunjucks": "^1.1.0",
-    "obj-to-attrs": "^1.1.2",<% if (tests) { %>
-    "should": "^4.2.0",<% } %>
+    "obj-to-attrs": "^1.1.2",{% if (tests) { %}
+    "should": "^4.2.0",{% } %}
     "vinyl-source-stream": "^1.0.0"
   },
-  "scripts": {<% if (tests) { %>
-    "test": "open 'http://localhost:3001/demo/tests.html'",<% } %>
+  "scripts": {{% if (tests) { %}
+    "test": "open 'http://localhost:3001/demo/tests.html'",{% } %}
     "jscs": "jscs ."
   },
   "license": "MIT"

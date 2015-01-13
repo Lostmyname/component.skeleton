@@ -1,3 +1,3 @@
 en:
-  component.<%= name %>:
+  component.{{ name }}:
     hello: Bonjour!

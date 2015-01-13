@@ -60,7 +60,7 @@ gulp.task('js-quality', function () {
 });
 
 gulp.task('js', ['js-quality'], function () {
-  var bundler = browserify('./src/js/<%= name %>.js');
+  var bundler = browserify('./src/js/{{ name }}.js');
 
   return bundler.bundle()
     .on('error', console.log.bind(console, 'Browserify Error'))
@@ -85,11 +85,11 @@ gulp.task('html', function (done) {
   var base = fs.readFileSync('demo/base.erb.html', 'utf8');
   var partial = fs.readFileSync('src/partials/partial.erb.html', 'utf8');
 
-  base = base.replace('<%= "<%=" %> partial %>', partial);
+  base = base.replace('<%= partial %>', partial);
 
   var env = nunjucks.configure({
     tags: {
-      variableStart: '<%= "<%=" %>',
+      variableStart: '<%=',
       variableEnd: '%>'
     }
   });
@@ -100,7 +100,7 @@ gulp.task('html', function (done) {
   var context = {
     name: 'sarah',
     t: function translate(text) {
-      return delve(lang.en['component.<%= name %>'], text);
+      return delve(lang.en['component.{{ name }}'], text);
 
     },
     image_path: function (path) {

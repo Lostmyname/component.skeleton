@@ -91,44 +91,33 @@ module.exports = yeoman.generators.Base.extend({
       }
 
       // All the other files!
-      this.fs.copy(
-        this.templatePath('dynamic/src/js/scripts.js'),
-        this.destinationPath('src/js/' + this.promptProps.name + '.js')
-      );
+      var copies = [
+        ['src/js/scripts.js', 'src/js/' + this.promptProps.name + '.js'],
+        ['src/scss/_skeleton.scss', 'src/scss/_' + this.promptProps.name + '.scss'],
+        'src/scss/styles.scss',
+        'src/en.yml',
+        ['_gitignore', '.gitignore'],
+        ['_package.json', 'package.json'],
+        'gulpfile.js'
+      ];
 
-      this.fs.copy(
-        this.templatePath('dynamic/src/scss/_skeleton.scss'),
-        this.destinationPath('src/scss/_' + this.promptProps.name + '.scss')
-      );
+      copies.forEach(function (copy) {
+        var from, to;
 
-      this.fs.copyTpl(
-        this.templatePath('dynamic/src/scss/styles.scss'),
-        this.destinationPath('src/scss/styles.scss'),
-        this.promptProps
-      );
+        if (Array.isArray(copy)) {
+          from = copy[0];
+          to = copy[1];
+        } else {
+          from = to = copy;
+        }
 
-      this.fs.copyTpl(
-        this.templatePath('dynamic/src/en.yml'),
-        this.destinationPath('src/en.yml'),
-        this.promptProps
-      );
-
-      this.fs.copy(
-        this.templatePath('dynamic/_gitignore'),
-        this.destinationPath('.gitignore')
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('dynamic/_package.json'),
-        this.destinationPath('package.json'),
-        this.promptProps
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('dynamic/gulpfile.js'),
-        this.destinationPath('gulpfile.js'),
-        this.promptProps
-      );
+        this.fs.copyTpl(
+          this.templatePath('dynamic/' + from),
+          this.destinationPath(to),
+          this.promptProps,
+          { interpolate: /\{\{(.+?)\}\}/g, evaluate: /\{\%(.+?)\%\}/g }
+        );
+      }.bind(this));
     }
   },
 

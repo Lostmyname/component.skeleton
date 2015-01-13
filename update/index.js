@@ -18,7 +18,11 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('../../app/templates/dynamic/gulpfile.js'),
         this.destinationPath('gulpfile.js'),
-        { name: name }
+        { name: name },
+        {
+          interpolate: /\{\{(.+?)\}\}/g,
+          evaluate: /\{\%(.+?)\%\}/g
+        }
       );
     }
   },
