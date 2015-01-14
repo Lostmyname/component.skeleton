@@ -6,6 +6,8 @@ var exec = require('child-process-promise').exec;
 var GitHubApi = require('github');
 var bluebird = require('bluebird');
 
+var copyFiles = require('../lib/copy-files');
+
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json');
@@ -91,33 +93,18 @@ module.exports = yeoman.generators.Base.extend({
       }
 
       // All the other files!
-      var copies = [
+      var toCopy = [
         ['src/js/scripts.js', 'src/js/' + this.promptProps.name + '.js'],
         ['src/scss/_skeleton.scss', 'src/scss/_' + this.promptProps.name + '.scss'],
         'src/scss/styles.scss',
         'src/en.yml',
         ['_gitignore', '.gitignore'],
         ['_package.json', 'package.json'],
-        'gulpfile.js'
+        'gulp-tasks/html.js',
+        'gulp-tasks/js.js'
       ];
 
-      copies.forEach(function (copy) {
-        var from, to;
-
-        if (Array.isArray(copy)) {
-          from = copy[0];
-          to = copy[1];
-        } else {
-          from = to = copy;
-        }
-
-        this.fs.copyTpl(
-          this.templatePath('dynamic/' + from),
-          this.destinationPath(to),
-          this.promptProps,
-          { interpolate: /\{\{(.+?)\}\}/g, evaluate: /\{\%(.+?)\%\}/g }
-        );
-      }.bind(this));
+      copyFiles(toCopy, 'dynamic/', this);
     }
   },
 

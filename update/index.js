@@ -3,6 +3,8 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 
+var copyFiles = require('../lib/copy-files');
+
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
     this.log(yosay(
@@ -15,15 +17,24 @@ module.exports = yeoman.generators.Base.extend({
     writing: function () {
       var name = require(this.destinationPath('package.json')).name.slice(4);
 
-      this.fs.copyTpl(
-        this.templatePath('../../app/templates/dynamic/gulpfile.js'),
-        this.destinationPath('gulpfile.js'),
-        { name: name },
-        {
-          interpolate: /\{\{(.+?)\}\}/g,
-          evaluate: /\{\%(.+?)\%\}/g
-        }
-      );
+      this.promptProps = { name: name };
+
+      var toCopyDynamic = [
+        'gulp-tasks/html.js',
+        'gulp-tasks/js.js'
+      ];
+
+      copyFiles(toCopyDynamic, '../../app/templates/dynamic/', this);
+
+      var toCopyStatic = [
+        'gulpfile.js',
+        'gulp-tasks/auto-reload.js',
+        'gulp-tasks/default.js',
+        'gulp-tasks/js-quality.js',
+        'gulp-tasks/scss.js'
+      ];
+
+      copyFiles(toCopyStatic, '../../app/templates/static/', this);
     }
   },
 
