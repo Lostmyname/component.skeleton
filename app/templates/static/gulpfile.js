@@ -11,6 +11,10 @@ global.onError = function (err) {
   this.emit('end'); // jshint ignore: line
 };
 
+function getTask(name) {
+  return require('./gulp-tasks/' + name)(gulp, plugins);
+}
+
 gulp.task('auto-reload', getTask('auto-reload'));
 gulp.task('html', getTask('html'));
 gulp.task('js', ['js-quality'], getTask('js'));
@@ -18,7 +22,3 @@ gulp.task('js-quality', getTask('js-quality'));
 gulp.task('scss', getTask('scss'));
 
 gulp.task('default', ['html', 'js', 'scss'], getTask('default'));
-
-function getTask(name) {
-  return require('./gulp-tasks/' + name)(gulp, plugins);
-}
