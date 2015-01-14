@@ -25,7 +25,7 @@ module.exports = function () {
 
     // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     var context = {
-      name: 'sarah',
+      name: '{{ name }}',
       t: function translate(text) {
         return delve(lang.en['component.{{ name }}'], text);
 
