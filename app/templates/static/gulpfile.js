@@ -20,5 +20,5 @@ gulp.task('scss', getTask('scss'));
 gulp.task('default', ['html', 'js', 'scss'], getTask('default'));
 
 function getTask(name) {
-  return require('gulp-tasks/' + name)(gulp, plugins);
+  return require('./gulp-tasks/' + name)(gulp, plugins);
 }
