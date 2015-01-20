@@ -15,6 +15,7 @@ module.exports = function () {
     base = base.replace('<%= partial %>', partial);
 
     var env = nunjucks.configure({
+      watch: false,
       tags: {
         variableStart: '<%=',
         variableEnd: '%>'
