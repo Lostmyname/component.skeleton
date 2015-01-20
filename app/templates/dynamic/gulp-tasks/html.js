@@ -29,7 +29,6 @@ module.exports = function () {
       name: '{{ name }}',
       t: function translate(text) {
         return delve(lang.en['component.{{ name }}'], text);
-
       },
       image_path: function (path) {
         return getImagePath(path);
