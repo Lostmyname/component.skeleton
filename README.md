@@ -9,6 +9,20 @@ npm install -g yo generator-lmn-component
 yo lmn-component
 ```
 
+## Updating existing components
+
+When the gulpfile in this repository is changed, you can use the generator
+to update it:
+
+```
+yo lmn-component:update
+```
+
+Remember to update `lmn-component` using `npm update -g lmn-component`.
+
+If there are new dependencies, they won't be installed—you'll have to do that
+bit yourself.
+
 ## GitHub support
 
 The generator will always create a git repository for you. You can also get it
