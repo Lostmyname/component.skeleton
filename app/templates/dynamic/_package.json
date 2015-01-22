@@ -26,7 +26,8 @@
     "jshint-stylish": "^1.0.0",{% if (tests) { %}
     "mocha": "^2.0.1",{% } %}
     "nunjucks": "^1.1.0",
-    "obj-to-attrs": "^1.1.2",{% if (tests) { %}
+    "obj-to-attrs": "^1.1.2",
+    "rubbish-erb-parser": "^1.0.0",{% if (tests) { %}
     "should": "^4.2.0",{% } %}
     "vinyl-source-stream": "^1.0.0"
   },
