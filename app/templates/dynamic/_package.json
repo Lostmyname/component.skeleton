@@ -6,7 +6,7 @@
   "main": "js/{{ name }}.js",
   "dependencies": {
     "browserify": "^6.2.0",
-    "jquery": "^2.1.1"
+    "jquery": "^1.11.2"
   },
   "devDependencies": {
     "browser-sync": "^1.5.1",
