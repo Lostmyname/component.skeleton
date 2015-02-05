@@ -19,7 +19,7 @@ module.exports = function () {
       return delve(lang.en['component.{{ name }}'], text);
     });
 
-    erbParser.renderString(base, { imagePath: '../../src/imgs/' }, { name: '{{ name }}' })
+    erbParser.renderString(base, { imagePath: '../build/images/' }, { name: '{{ name }}' })
       .then(function (res) {
         fs.mkdir('demo/partials', function (err) {
           if (err && err.code !== 'EEXIST') {

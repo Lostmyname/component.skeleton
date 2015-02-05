@@ -6,29 +6,44 @@
   "main": "js/{{ name }}.js",
   "dependencies": {
     "browserify": "^6.2.0",
-    "jquery": "^1.11.2"
+    "jquery": "^1.11.2",
+    "lmn.jester.theme.default": "0.12.x",
+    "lmn.tarantula": "0.5.x"
   },
   "devDependencies": {
     "browser-sync": "^1.5.1",
     "delve": "^0.3.2",
+    "find-node-modules": "^1.0.1",
     "gulp": "^3.8.8",
     "gulp-autoprefixer": "^1.0.1",
+    "gulp-changed": "^1.0.0",
+    "gulp-clone": "^1.0.0",
     "gulp-compass": "^2.0.3",
+    "gulp-gm": "0.0.7",
+    "gulp-if": "^1.2.5",
+    "gulp-imagemin": "^1.0.1",
     "gulp-jscs": "^1.3.1",
     "gulp-jshint": "^1.9.0",
     "gulp-load-plugins": "^0.7.1",
     "gulp-minify-css": "^0.3.10",
     "gulp-plumber": "^0.6.6",
+    "gulp-raster": "^0.1.0",
     "gulp-rename": "^1.2.0",
-    "gulp-ruby-sass": "^0.7.1",
+    "gulp-rev": "3.0.0",
+    "gulp-sass": "^1.3.2",
+    "gulp-util": "^3.0.3",
+    "imagemin-jpegoptim": "^4.0.0",
     "js-yaml": "^3.2.5",
     "jscs": "^1.8.1",
+    "lodash": "^2.4.1",
+    "merge-stream": "^0.1.7",
     "jshint-stylish": "^1.0.0",{% if (tests) { %}
     "mocha": "^2.0.1",{% } %}
     "nunjucks": "^1.1.0",
     "obj-to-attrs": "^1.1.2",
     "rubbish-erb-parser": "^1.0.0",{% if (tests) { %}
     "should": "^4.2.0",{% } %}
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0"
   },
   "scripts": {{% if (tests) { %}

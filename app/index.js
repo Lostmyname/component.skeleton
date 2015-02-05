@@ -95,8 +95,6 @@ module.exports = yeoman.generators.Base.extend({
       // All the other files!
       var toCopy = [
         ['src/js/scripts.js', 'src/js/' + this.promptProps.name + '.js'],
-        ['src/scss/_skeleton.scss', 'src/scss/_' + this.promptProps.name + '.scss'],
-        'src/scss/styles.scss',
         'src/en.yml',
         ['_gitignore', '.gitignore'],
         ['_package.json', 'package.json'],

@@ -10,7 +10,7 @@ module.exports = function (gulp) {
       server: {
         baseDir: '.'
       },
-      startPath: '/demo/index.html',
+      startPath: '/demo/partials/partial.html',
       ghostMode: {
         scroll: false,
         links: false,
