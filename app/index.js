@@ -98,8 +98,7 @@ module.exports = yeoman.generators.Base.extend({
         'src/en.yml',
         ['_gitignore', '.gitignore'],
         ['_package.json', 'package.json'],
-        'gulp-tasks/html.js',
-        'gulp-tasks/js.js'
+        'gulpfile.js'
       ];
 
       copyFiles(toCopy, 'dynamic/', this);
