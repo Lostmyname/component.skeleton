@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 
+var spawn = require('child_process').spawn;
 var copyFiles = require('../lib/copy-files');
 
 module.exports = yeoman.generators.Base.extend({
@@ -21,6 +22,14 @@ module.exports = yeoman.generators.Base.extend({
       copyFiles(['gulpfile.js'], '../../app/templates/dynamic/', this);
 
       this.fs.delete(this.destinationPath('gulp-tasks'));
+
+      var child = spawn('npm', ['install', '--save-dev', 'browser-sync']);
+      child.stdout.pipe(process.stdout);
+      child.stderr.pipe(process.stderr);
+
+      child.on('close', function () {
+        done();
+      });
     }
   },
 
