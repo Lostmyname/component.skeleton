@@ -18,12 +18,12 @@ module.exports = yeoman.generators.Base.extend({
     writing: function () {
       var done = this.async();
 
+      this.fs.delete(this.destinationPath('gulp-tasks'));
+
       var name = require(this.destinationPath('package.json')).name.slice(4);
 
       this.promptProps = { name: name };
       copyFiles(['gulpfile.js'], '../../app/templates/dynamic/', this);
-
-      this.fs.delete(this.destinationPath('gulp-tasks'));
 
       var child = spawn('npm', ['install', '--save-dev', 'browser-sync']);
       child.stdout.pipe(process.stdout);
