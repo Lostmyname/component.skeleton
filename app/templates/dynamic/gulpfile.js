@@ -15,7 +15,7 @@ gulp.task('html', loadLmnTask('html', {
 
 gulp.task('js', ['js-quality'], loadLmnTask('browserify', {
   src: './src/js/{{ name }}.js',
-  dest: './demo/build/bundle.js'
+  dest: path.join(buildPath, 'js/bundle.js')
 }));
 
 gulp.task('js-quality', loadLmnTask('js-quality', {
