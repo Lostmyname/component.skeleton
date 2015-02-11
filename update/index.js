@@ -16,6 +16,8 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     writing: function () {
+      var done = this.async();
+
       var name = require(this.destinationPath('package.json')).name.slice(4);
 
       this.promptProps = { name: name };
